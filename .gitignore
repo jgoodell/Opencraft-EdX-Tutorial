@@ -1,0 +1,5 @@
+var/
+*\.pyc
+*~
+xblock\-sdk/
+*\.egg\-info/

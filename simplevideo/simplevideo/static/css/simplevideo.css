@@ -1,0 +1,9 @@
+/* CSS for SimpleVideoXBlock */
+
+.simplevideo_block .count {
+    font-weight: bold;
+}
+
+.simplevideo_block p {
+    cursor: pointer;
+}
