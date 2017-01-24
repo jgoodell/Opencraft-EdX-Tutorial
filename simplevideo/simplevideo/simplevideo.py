@@ -18,7 +18,8 @@ class SimpleVideoXBlock(XBlock):
     href = String(help="URL of the video page at the provider", default=None, scope=Scope.content)
     maxwidth = Integer(help="Maximum width of the video", default=800, scope=Scope.content)
     maxheight = Integer(help="Maximum height of the video", default=450, scope=Scope.content)
-
+    watched_count = Integer(help="The number of times the student watched the video",
+                            default=0, scope=Scope.user_state)
 
     def resource_string(self, path):
         """Handy helper for getting resources from our kit."""
@@ -38,6 +39,35 @@ class SimpleVideoXBlock(XBlock):
         # Load the HTML fragment from within the package and fill in the template
         html_str = pkg_resources.resource_string(__name__, "static/html/simplevideo.html")
         frag = Fragment(unicode(html_str).format(self=self, embed_code=embed_code))
+
+        # Load CSS
+        css_str = pkg_resources.resource_string(__name__, "static/css/simplevideo.css")
+        frag.add_css(unicode(css_str))
+
+        # Load JS
+        if provider == 'vimeo.com':
+            # Load the Froogaloop library from vimeo CDN.
+            frag.add_javascript_url("//f.vimeocdn.com/js/froogaloop2.min.js")
+            js_str = pkg_resources.resource_string(__name__, "static/js/simplevideo.js")
+            frag.add_javascript(unicode(js_str))
+            frag.initialize_js('SimpleVideoBlock')
+        
+        return frag
+
+    def studio_view(self, context):
+        """
+        Create a fragement used to display the edit view in the Studio.
+        """
+        html_str = pkg_resources.resource_string(__name__, "static/html/simplevideo_edit.html")
+        href = self.href or ''
+        frag = Fragment(unicode(html_str).format(
+            href=href,
+            maxwidth=self.maxwidth,
+            maxheight=self.maxheight
+            ))
+        js_str = pkg_resources.resource_string(__name__, "static/js/simpslevideo_edit.js")
+        frag.add-javascript(unicode(js_str))
+        frag.initialize_js('SimpleVideoEditBlock')
         
         return frag
 
@@ -47,7 +77,6 @@ class SimpleVideoXBlock(XBlock):
         """
         hostname = url and urlparse(url).hostname
         # Check that the provider is supported
-        import pdb; pdb.set_trace()
         if hostname == 'vimeo.com':
             oembed_url = 'http://vimeo.com/api/oembed.json'
         else:
@@ -72,6 +101,27 @@ class SimpleVideoXBlock(XBlock):
 
     # TO-DO: change this handler to perform your own actions.  You may need more
     # than one handler, or you may not need any handlers at all.
+    @XBlock.json_handler
+    def studio_submit(self, data, suffix=''):
+        """
+        Called when submitting the form in Studio.
+        """
+        self.href = data.get('href')
+        self.maxwidth = data.get('maxwidth')
+        self.maxheight = data.get('maxheight')
+
+        return {'result': 'success'}
+    
+    @XBlock.json_handler
+    def mark_as_watched(self, data, suffix=''):
+        """
+        Called upon completion of the video.
+        """
+        if data.get('watched'):
+            self.watched_count += 1
+
+        return {'watched_count': self.watched_count}
+    
     @XBlock.json_handler
     def increment_count(self, data, suffix=''):
         """
