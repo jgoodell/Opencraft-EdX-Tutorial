@@ -1,0 +1,9 @@
+/* CSS for SoundCloudXBlock */
+
+.soundcloud_block .count {
+    font-weight: bold;
+}
+
+.soundcloud_block p {
+    cursor: pointer;
+}
