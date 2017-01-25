@@ -39,6 +39,19 @@ class SoundCloudXBlock(XBlock):
         frag.initialize_js('SoundCloudXBlock')
         return frag
 
+    def studio_view(self, context=None):
+        """
+        The studio view of the SoundCloudXBlock, shown to staff
+        when creating courses.
+        """
+        html = self.resource_string("static/html/soundcloud.html")
+        frag = Fragment(html.format(self=self))
+        frag.add_css(self.resource_string("static/css/soundcloud.css"))
+        frag.add_javascript(self.resource_string("static/js/src/soundcloud.js"))
+        frag.initialize_js('SoundCloudXBlock')
+        return frag
+        
+
     # TO-DO: change this handler to perform your own actions.  You may need more
     # than one handler, or you may not need any handlers at all.
     @XBlock.json_handler
