@@ -35,7 +35,7 @@ class MyXBlock(XBlock):
         The studio view of the MyXBlock, allowing authors
         to configure the XBlock.
         """
-        html = pkg_resources..resource_string("static/html/myxblock_edit.html")
+        html = pkg_resources.resource_string("static/html/myxblock_edit.html")
         link_url = self.link_url or ''
         frag = Fragment(html.format(link_url=link_url,
                                     link_name=self.link_name,
