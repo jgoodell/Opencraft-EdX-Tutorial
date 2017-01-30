@@ -1,3 +1,7 @@
+function MyXBlockEditAside(runtime, element, block_element, init_args) {
+    return new MyXBlockEditBlock(runtime, element);
+}
+
 function MyXBlockEditBlock(runtime, element) {
     $(element).find('.save-button').bind('click', function() {
 	var handlerUrl = runtime.handlerUrl(element, 'studio_submit');
