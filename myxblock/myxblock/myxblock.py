@@ -36,7 +36,14 @@ class MyXBlock(XBlock):
         to configure the XBlock.
         """
         html = self.resource_string("static/html/myxblock_edit.html")
-        frag = Fragment(html.format(self=self))
+        link_url = self.link_url or ''
+        frag = Fragment(unicode(html_string, 'utf8').format(link_url=link_url,
+                                                            link_name=self.link_name,
+                                                            description=self.description))
+        js_str = pkg_resource.resource_string(__name__, "static/js/simplevideo_edit.js")
+        frag.add_javascript(unicode(js_str, 'utf8'))
+        frag.initialize_js('MyXBlockEditBlock')
+        
         return frag
 
     def student_view(self, context=None):
@@ -50,6 +57,17 @@ class MyXBlock(XBlock):
         frag.add_javascript(self.resource_string("static/js/src/myxblock.js"))
         frag.initialize_js('MyXBlock')
         return frag
+
+    @XBlock.json_handler
+    def studio_submit(self, data, suffix=''):
+        """
+        Called when submitting the form in Studio.
+        """
+        self.link_url = data.get('link_url')
+        self.link_name = data.get('link_name')
+        self.description = data.get('description')
+
+        return {'result': 'success'}
 
     @XBlock.json_handler
     def vote(self, data, suffix=''): # pylint: disable=unused-argument
