@@ -8,9 +8,9 @@ function MyXBlockEditBlock(runtime, element) {
     $(element).find('.save-button').bind('click', function() {
 	var handlerUrl = runtime.handlerUrl(element, 'studio_submit');
 	var data = {
-	    link_url = $(element).find('input[name=link_url]').val(),
-	    link_name = $(element).find('input[name=link_name]').val(),
-	    description = $(element).find('input[name=description]').val()
+	    link_url: $(element).find('input[name=link_url]').val(),
+	    link_name: $(element).find('input[name=link_name]').val(),
+	    description: $(element).find('input[name=description]').val()
 	};
 	runtime.notify('save', {state: 'start'});
 	$.post(handlerUrl, JSON.stringify(data)).done(function(response) {
