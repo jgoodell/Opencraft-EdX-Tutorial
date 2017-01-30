@@ -18,12 +18,12 @@ class MyXBlock(XBlock):
     voted = Boolean(help="Has this student voted?", default=False,
                     scope=Scope.user_state)
     link_url = String(help="An external link", default='http://www.google.com',
-                      scope=Scope.user_state_summary)
+                      scope=Scope.content)
     link_name = String(help="Name to display for external link", default='Google Search Engine',
-                       scope=Scope.user_state_summary)
+                       scope=Scope.content)
     description = String(help="A description of the link",
                          default='A popular internet search engine.',
-                         scope=Scope.user_state_summary)
+                         scope=Scope.content)
 
     def resource_string(self, path):
         """Handy helper for getting resources from our kit."""
