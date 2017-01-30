@@ -30,6 +30,14 @@ class MyXBlock(XBlock):
         data = pkg_resources.resource_string(__name__, path)
         return data.decode("utf8")
 
+    def studio_view(self, context=None):
+        html_str = pkg_resources.resource_string(__name__, "static/html/myxblock_edit.html")
+        link_url = self.link_url or ''
+        frag = Fragment(unicode(html_str).format(link_url=link_url,
+                                                 link_name=self.link_name,
+                                                 description=self.description))
+        return frag
+
     def student_view(self, context=None):
         """
         The primary view of the MyXBlock, shown to students
