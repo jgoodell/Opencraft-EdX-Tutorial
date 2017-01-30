@@ -37,11 +37,11 @@ class MyXBlock(XBlock):
         """
         html_str = self.resource_string("static/html/myxblock_edit.html")
         link_url = self.link_url or ''
-        frag = Fragment(unicode(html_str, 'utf8').format(link_url=link_url,
-                                                     link_name=self.link_name,
-                                                     description=self.description))
+        frag = Fragment(html_str.format(link_url=link_url,
+                                        link_name=self.link_name,
+                                        description=self.description))
         js_str = self.resource_string("static/js/src/myxblock_edit.js")
-        frag.add_javascript(unicode(js_str, 'utf8'))
+        frag.add_javascript(js_str)
         frag.initialize_js('MyXBlockEditBlock')
         return frag
 
