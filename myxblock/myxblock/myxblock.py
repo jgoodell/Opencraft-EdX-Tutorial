@@ -37,9 +37,9 @@ class MyXBlock(XBlock):
         """
         html = self.resource_string("static/html/myxblock_edit.html")
         link_url = self.link_url or ''
-        frag = Fragment(unicode(html_string, 'utf8').format(link_url=link_url,
-                                                            link_name=self.link_name,
-                                                            description=self.description))
+        frag = Fragment(unicode(html, 'utf8').format(link_url=link_url,
+                                                     link_name=self.link_name,
+                                                     description=self.description))
         js_str = pkg_resource.resource_string(__name__, "static/js/simplevideo_edit.js")
         frag.add_javascript(unicode(js_str, 'utf8'))
         frag.initialize_js('MyXBlockEditBlock')
