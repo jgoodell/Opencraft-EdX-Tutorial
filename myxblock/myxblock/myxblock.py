@@ -37,7 +37,7 @@ class MyXBlock(XBlock):
         """
         html_str = self.resource_string("static/html/myxblock_edit.html")
         link_url = self.link_url or ''
-        frag = Fragment(unicode(html, 'utf8').format(link_url=link_url,
+        frag = Fragment(unicode(html_str, 'utf8').format(link_url=link_url,
                                                      link_name=self.link_name,
                                                      description=self.description))
         js_str = self.resource_string("static/js/src/myxblock_edit.js")
