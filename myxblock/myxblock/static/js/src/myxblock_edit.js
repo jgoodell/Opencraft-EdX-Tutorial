@@ -7,7 +7,7 @@ function MyXBlockEditBlock(runtime, element) {
 	    description = $(element).find('input[name=description]').val()
 	};
 	runtime.notify('save', {state: 'start'});
-	$.post(handleUrl, JSON.stringify(data)).done(function(response) {
+	$.post(handlerUrl, JSON.stringify(data)).done(function(response) {
 	    runtime.notify('save', {state: 'end'});
 	});
     });
